@@ -1,0 +1,59 @@
+@import "@fontsource/vazirmatn";
+
+:root {
+  --navy-950: #05101f;
+  --navy-900: #07182e;
+  --navy-800: #102a49;
+  --navy-700: #183a5e;
+  --silver-50: #fbfcfe;
+  --silver-100: #f4f7fb;
+  --silver-200: #e7edf5;
+  --silver-300: #cfd9e6;
+  --silver-400: #98a6b8;
+  --ink: #0f1e31;
+  --muted: #6c7889;
+  --line: rgba(152, 166, 184, 0.34);
+  --danger: #dc2626;
+  --success: #15803d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--navy-950);
+  color: var(--ink);
+  font-family: Vazirmatn, Tahoma, Arial, sans-serif;
+  font-weight: 300;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  height: 100dvh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#__next {
+  height: 100%;
+}
