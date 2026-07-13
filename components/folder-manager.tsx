@@ -2048,9 +2048,8 @@ export function FolderManager({
           {toast.message}
         </div>
       ) : null}
-      <div className={`${styles.workspace} ${activeAppTab !== "records" ? styles.workspaceCompact : ""}`}>
-        <main className={`${styles.mainPanel} ${activeAppTab !== "records" ? styles.mainPanelSimple : ""}`}>
-          {activeAppTab === "records" ? (
+      <div className={styles.workspace}>
+        <main className={styles.mainPanel}>
           <header className={styles.topbar}>
             {activeAppTab === "records" ? (
               <div
@@ -2096,11 +2095,14 @@ export function FolderManager({
                   />
                 </div>
               </div>
-            ) : null}
+            ) : (
+              <div className={styles.topbarTitleOnly}>
+                <span>{activeAppTab === "home" ? "خانه" : "تنظیمات"}</span>
+              </div>
+            )}
           </header>
-          ) : null}
 
-          <section key={activeAppTab} className={`${styles.contentPanel} ${styles.tabScene}`}>
+          <section className={styles.contentPanel}>
             {activeAppTab === "home" ? (
               renderHomeDashboard()
             ) : activeAppTab === "settings" ? (
@@ -2178,7 +2180,6 @@ export function FolderManager({
           </section>
         </main>
 
-        {activeAppTab === "records" ? (
         <aside
           className={styles.sidebar}
           onClick={(event) => event.stopPropagation()}
@@ -2302,10 +2303,46 @@ export function FolderManager({
             <div className={styles.sidebarSpacer} aria-hidden="true" />
           )}
 
-        </aside>
-        ) : null}
+          <div className={styles.profileArea}>
+            <button
+              type="button"
+              className={styles.userCard}
+              onClick={(event) => {
+                event.stopPropagation();
+                setMenuFolderId(null);
+                setProfileMenuOpen((value) => !value);
+              }}
+            >
+              <span className={styles.avatar}>
+                {userDisplayName.slice(0, 1)}
+              </span>
+              <div>
+                <strong>{userDisplayName}</strong>
+                <small>حساب فعال</small>
+              </div>
+              <ChevronDown size={16} />
+            </button>
 
-        <aside className={styles.iconRail} onClick={(event) => event.stopPropagation()}>
+            {profileMenuOpen ? (
+              <div className={styles.profileMenu}>
+                <button type="button" onClick={openPasswordModal}>
+                  <KeyRound size={16} />
+                  تغییر رمز
+                </button>
+                <button
+                  type="button"
+                  className={styles.profileLogoutButton}
+                  onClick={() => void signOut()}
+                >
+                  <LogOut size={16} />
+                  خروج
+                </button>
+              </div>
+            ) : null}
+          </div>
+        </aside>
+
+        <aside className={styles.iconRail}>
           <div className={styles.logoMark}>
             <Layers3 size={24} />
           </div>
@@ -2343,45 +2380,6 @@ export function FolderManager({
               <Settings size={21} />
             </button>
           </nav>
-
-          <div className={styles.railProfileArea}>
-            <button
-              type="button"
-              className={styles.railAvatarButton}
-              onClick={(event) => {
-                event.stopPropagation();
-                setMenuFolderId(null);
-                setMenuCaseId(null);
-                setMenuDocumentId(null);
-                setProfileMenuOpen((value) => !value);
-              }}
-              title={userDisplayName}
-              aria-label="پروفایل کاربر"
-            >
-              {userDisplayName.slice(0, 1)}
-            </button>
-
-            {profileMenuOpen ? (
-              <div className={`${styles.profileMenu} ${styles.railProfileMenu}`}>
-                <div className={styles.railProfileInfo}>
-                  <strong>{userDisplayName}</strong>
-                  <small>{userEmail || "حساب فعال"}</small>
-                </div>
-                <button type="button" onClick={openPasswordModal}>
-                  <KeyRound size={16} />
-                  تغییر رمز
-                </button>
-                <button
-                  type="button"
-                  className={styles.profileLogoutButton}
-                  onClick={() => void signOut()}
-                >
-                  <LogOut size={16} />
-                  خروج
-                </button>
-              </div>
-            ) : null}
-          </div>
         </aside>
       </div>
 
@@ -2826,19 +2824,13 @@ export function FolderManager({
             ) : (
               <form onSubmit={changePassword}>
                 <h2>تغییر رمز عبور</h2>
-                <p>رمز فعلی و رمز جدید حساب خود را وارد کن.</p>
-                <input
-                  type="password"
-                  value={currentPassword}
-                  onChange={(event) => setCurrentPassword(event.target.value)}
-                  placeholder="رمز فعلی"
-                  autoFocus
-                />
+                <p>رمز جدید حساب خود را وارد کن.</p>
                 <input
                   type="password"
                   value={newPassword}
                   onChange={(event) => setNewPassword(event.target.value)}
                   placeholder="رمز جدید"
+                  autoFocus
                 />
                 <input
                   type="password"
